@@ -1,4 +1,4 @@
-# giclo
+# wb-inbox-mail-count - WIP
 
 GitHub Liked repos cloner
 
@@ -6,7 +6,7 @@ GitHub Liked repos cloner
 [![CodeQL](https://github.com/devalv/go-boiler/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/devalv/go-boiler/actions/workflows/codeql-analysis.yml)
 [![codecov](https://codecov.io/gh/devalv/go-boiler/branch/main/graph/badge.svg)](https://codecov.io/gh/devalv/go-boiler)
 
-## Installation
+## Installation - WIP
 
 1. Make sure that proper version of **Go** installed and ENVs are set.
 
@@ -23,7 +23,7 @@ export PATH="$PATH:/usr/local/go/bin:$HOME/go/bin"
 make setup
 ```
 
-## Project layout
+## Project layout - WIP
 
 Directory names and meanings
 <https://github.com/golang-standards/project-layout/blob/master/README_ru.md>

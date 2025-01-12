@@ -8,25 +8,16 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/rs/zerolog/log"
-
 	"giclo/internal/adapters/config"
 	"giclo/internal/application"
 	"giclo/internal/domain/errors"
+	"giclo/internal/domain/models"
+
+	"github.com/rs/zerolog"
+	"github.com/rs/zerolog/log"
 )
 
-func ParseFlags() (cfgPath string, err error) {
-	flag.StringVar(&cfgPath, "config", "./config.yml", "path to config file")
-	flag.Parse()
-
-	if err := ValidateConfigPath(cfgPath); err != nil {
-		return "", err
-	}
-
-	return cfgPath, nil
-}
-
-func ValidateConfigPath(path string) error {
+func validateConfigPath(path string) error {
 	s, err := os.Stat(path)
 	if err != nil {
 		return err
@@ -39,8 +30,29 @@ func ValidateConfigPath(path string) error {
 	return nil
 }
 
+func parseFlags() (path string, err error) {
+	var cfgPath string
+	flag.StringVar(&cfgPath, "config", "./config.yml", "path to config file")
+	flag.Parse()
+
+	if err := validateConfigPath(cfgPath); err != nil {
+		return "", err
+	}
+
+	return cfgPath, nil
+}
+
+func configureLogger(cfg *models.Config) {
+	zerolog.SetGlobalLevel(zerolog.InfoLevel)
+
+	if cfg.Debug {
+		zerolog.SetGlobalLevel(zerolog.DebugLevel)
+		log.Debug().Msg("Debug mode enabled")
+	}
+}
+
 func main() {
-	cfgPath, err := ParseFlags()
+	cfgPath, err := parseFlags()
 	if err != nil {
 		log.Fatal().Err(err).Msg(errors.ConfigError)
 	}
@@ -49,7 +61,9 @@ func main() {
 	if err != nil {
 		log.Fatal().Err(err).Msg(errors.ConfigError)
 	}
+	configureLogger(cfg)
 
+	log.Debug().Msgf("Config is: `%v`", cfg)
 	ctx, cancel := signal.NotifyContext(context.Background(), syscall.SIGTERM, os.Interrupt, syscall.SIGSEGV)
 	defer cancel()
 
