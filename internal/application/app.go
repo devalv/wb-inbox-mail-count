@@ -2,10 +2,8 @@ package application
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
 	"os"
-	"strings"
 
 	"github.com/emersion/go-imap/v2"
 	client "github.com/emersion/go-imap/v2/imapclient"
@@ -23,7 +21,7 @@ func NewApplication(cfg *models.Config) *Application {
 	return app
 }
 
-func getMails(servers []models.ServerConfig) (*models.WaybarOutput, error) {
+func getMails(servers []models.ServerConfig) (count uint32, tooltip []string, err error) {
 	// TODO: parallel get for each server with error groups - v0.2?
 	log.Debug().Msgf("Mail configuration is: `%v`", servers)
 	var inboxCount uint32 = 0
@@ -33,11 +31,11 @@ func getMails(servers []models.ServerConfig) (*models.WaybarOutput, error) {
 		// TODO: another function with safe defer for logout - v0.1
 		c, err := client.DialTLS(srvConfig.Address, nil)
 		if err != nil {
-			return nil, err
+			return 0, nil, err
 		}
 		log.Debug().Msgf("Connected to mail server `%s`", srvConfig.Address)
 		if err := c.Login(srvConfig.Username, srvConfig.Password).Wait(); err != nil {
-			return nil, err
+			return 0, nil, err
 		}
 
 		log.Debug().Msgf("Logged in to mail server `%s`", srvConfig.Address)
@@ -45,40 +43,29 @@ func getMails(servers []models.ServerConfig) (*models.WaybarOutput, error) {
 		selectOptions := &imap.SelectOptions{ReadOnly: true}
 		mbox, err := c.Select("INBOX", selectOptions).Wait()
 		if err != nil {
-			return nil, err
+			return 0, nil, err
 		}
 		log.Debug().Msgf("INBOX contains %d messages", mbox.NumMessages)
 		inboxCount += mbox.NumMessages
 		tooltipInfo = append(tooltipInfo, fmt.Sprintf("%s: %d", srvConfig.Name, mbox.NumMessages))
 		c.Logout()
 	}
-
-	// TODO: отдельный метод для формирования tooltip и text?
-	if inboxCount == 0 {
-		return &models.WaybarOutput{
-			Text:    fmt.Sprintf("%d %s", inboxCount, models.EmptyInbox),
-			Tooltip: strings.Join(tooltipInfo, "\n"),
-		}, nil
-	}
-
-	return &models.WaybarOutput{
-		Text:    fmt.Sprintf("%d %s", inboxCount, models.NonEmptyInbox),
-		Tooltip: strings.Join(tooltipInfo, "\n"),
-	}, nil
+	return inboxCount, tooltipInfo, nil
 }
 
 func (app *Application) Start(ctx context.Context) {
 	log.Debug().Msg("Starting mail application")
-	wo, err := getMails(app.cfg.Servers)
+	inboxCount, tooltipInfo, err := getMails(app.cfg.Servers)
 	if err != nil {
 		log.Fatal().Err(err).Msg("failed to get mail count")
 	}
-	log.Debug().Msgf("Waybar output is: `%v`", wo)
 
-	// TODO: make another function (method in WaybarOutput) - v0.1
-	str, _ := json.Marshal(wo)
-	fmt.Println(string(str)) // output for waybar
+	wo, err := models.NewWaybarOutput(inboxCount, tooltipInfo)
+	if err != nil {
+		log.Fatal().Err(err).Msg("failed to create Waybar output")
+	}
 
+	fmt.Println(wo)
 	app.Stop(ctx)
 }
 
