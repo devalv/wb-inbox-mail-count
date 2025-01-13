@@ -9,10 +9,6 @@ setup:
 	pip install pre-commit
 	pre-commit install
 
-pcr:
-	pre-commit autoupdate
-	pre-commit run --all-files
-
 fmt:
 	gofmt -w -s ./internal
 	goimports -w ./internal
@@ -28,4 +24,4 @@ build:
 	go build -o app ./cmd
 
 run:
-	go run ./cmd -config /home/devalv/proj/mail-checker/config-local.yml
+	go run ./cmd -config ./config-local.yml

@@ -1,13 +1,13 @@
-# wb-inbox-mail-count - WIP
-
+# wb-inbox-mail-count
+<!-- TODO: актуализировать для v0.1 -->
 GitHub Liked repos cloner
 
 [![Go Report Card](https://goreportcard.com/badge/github.com/devalv/go-boiler)](https://goreportcard.com/report/github.com/devalv/go-boiler)
 [![CodeQL](https://github.com/devalv/go-boiler/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/devalv/go-boiler/actions/workflows/codeql-analysis.yml)
 [![codecov](https://codecov.io/gh/devalv/go-boiler/branch/main/graph/badge.svg)](https://codecov.io/gh/devalv/go-boiler)
 
-## Installation - WIP
-
+## Installation
+<!-- TODO: актуализировать для v0.1 -->
 1. Make sure that proper version of **Go** installed and ENVs are set.
 
 ```bash
@@ -23,7 +23,10 @@ export PATH="$PATH:/usr/local/go/bin:$HOME/go/bin"
 make setup
 ```
 
-## Project layout - WIP
-
+## Project layout
+<!-- TODO: актуализировать для v0.1 -->
 Directory names and meanings
 <https://github.com/golang-standards/project-layout/blob/master/README_ru.md>
+
+## Build deb-package
+<!-- TODO: актуализировать для v0.1 -->

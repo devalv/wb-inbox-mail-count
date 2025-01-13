@@ -10,7 +10,6 @@ import (
 
 	"giclo/internal/adapters/config"
 	"giclo/internal/application"
-	"giclo/internal/domain/errors"
 	"giclo/internal/domain/models"
 
 	"github.com/rs/zerolog"
@@ -54,15 +53,16 @@ func configureLogger(cfg *models.Config) {
 func main() {
 	cfgPath, err := parseFlags()
 	if err != nil {
-		log.Fatal().Err(err).Msg(errors.ConfigError)
+		log.Fatal().Err(err).Msg("failed to parse flags")
 	}
 
 	cfg, err := config.NewConfig(cfgPath)
 	if err != nil {
-		log.Fatal().Err(err).Msg(errors.ConfigError)
+		log.Fatal().Err(err).Msg("failed to read config")
 	}
 	configureLogger(cfg)
 
+	log.Debug().Msgf("Config path is `%s`", cfgPath)
 	log.Debug().Msgf("Config is: `%v`", cfg)
 	ctx, cancel := signal.NotifyContext(context.Background(), syscall.SIGTERM, os.Interrupt, syscall.SIGSEGV)
 	defer cancel()

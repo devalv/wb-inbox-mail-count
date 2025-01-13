@@ -12,4 +12,14 @@ type Config struct {
 	Servers []ServerConfig `yaml:"servers"`
 }
 
-// TODO: WaybarOutput
+type WaybarOutput struct {
+	Text    string `json:"text"`
+	Tooltip string `json:"tooltip"`
+}
+
+// TODO: WaybarOutput должен иметь метод для сериализации, который бы сам подставлял в json
+// строку на основе внутренних данных + иконки - v0.1
+const (
+	EmptyInbox    = "<span rise='2000'>󰶈</span>"
+	NonEmptyInbox = "<span color='#FF0000' rise='2000'>󰶍</span>"
+)
