@@ -1,6 +1,6 @@
 module wb-inbox-mail-count
 
-go 1.23
+go 1.23.4
 
 require (
 	github.com/emersion/go-imap/v2 v2.0.0-beta.4
