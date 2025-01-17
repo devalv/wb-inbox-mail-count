@@ -12,6 +12,7 @@ setup:
 fmt:
 	gofmt -w -s ./internal
 	goimports -w ./internal
+	gofumpt -w ./internal
 
 test:
 	go test ./... -race
@@ -21,7 +22,10 @@ cover:
 
 build:
 	$(MAKE) fmt
-	go build -o app ./cmd
+	go build -o application ./cmd/app
 
 run:
-	go run ./cmd -config ./config-local.yml
+	go run ./cmd/app
+
+debug:
+	go run ./cmd/app -config ./config-local-debug.yml

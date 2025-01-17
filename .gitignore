@@ -32,4 +32,4 @@ go.work
 config-local.yml
 
 # Build artifacts
-app
+application

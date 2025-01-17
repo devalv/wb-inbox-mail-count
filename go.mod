@@ -1,4 +1,4 @@
-module giclo
+module wb-inbox-mail-count
 
 go 1.23
 
