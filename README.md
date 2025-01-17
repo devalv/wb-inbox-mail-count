@@ -1,29 +1,129 @@
-# giclo
+# wb-inbox-mail-count
 
-GitHub Liked repos cloner
+<!-- TODO: актуализировать ссылки -->
+[![Go Report Card](https://goreportcard.com/badge/github.com/devalv/wb-inbox-mail-count)](https://goreportcard.com/report/github.com/devalv/wb-inbox-mail-count)
+[![CodeQL](https://github.com/devalv/wb-inbox-mail-count/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/devalv/wb-inbox-mail-count/actions/workflows/codeql-analysis.yml)
+[![codecov](https://codecov.io/gh/devalv/wb-inbox-mail-count/branch/main/graph/badge.svg)](https://codecov.io/gh/devalv/wb-inbox-mail-count)
 
-[![Go Report Card](https://goreportcard.com/badge/github.com/devalv/go-boiler)](https://goreportcard.com/report/github.com/devalv/go-boiler)
-[![CodeQL](https://github.com/devalv/go-boiler/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/devalv/go-boiler/actions/workflows/codeql-analysis.yml)
-[![codecov](https://codecov.io/gh/devalv/go-boiler/branch/main/graph/badge.svg)](https://codecov.io/gh/devalv/go-boiler)
+## Отображение количества сообщений в папке "Входящие"
+![пример](example.png)
 
-## Installation
+## Установка и конфигурация
 
-1. Make sure that proper version of **Go** installed and ENVs are set.
+### Установка собранного bin-файла
+1. Загрузите соответствующую версию из раздела [релизы](https://github.com/devalv/wb-inbox-mail-count/releases)
+2. Скопируйте исполняемый файл в `/usr/local/bin` (или иной каталог доступный waybar на запуск)
+3. Создайте файл-конфигурации по инструкции описанной ниже
+4. Проверьте запуск командой `wbimc -config /home/user/.config/wb-inbox-mail-count/config.yml`
+5. Если на 4м шаге произошли ошибки - активируйте ключ debug в config.yml и повторите запуск
+6. Добавьте отображение статуса в waybar (инструкция ниже)
 
-```bash
-wget https://go.dev/dl/go1.21.1.linux-amd64.tar.gz
-rm -rf /usr/local/go && sudo tar -C /usr/local -xzf go1.21.1.linux-amd64.tar.gz
-# add to .zshrc
-export PATH="$PATH:/usr/local/go/bin:$HOME/go/bin"
+<!-- ### Установка deb-пакета
+1. Загрузите соответствующую версию из раздела [релизы](https://github.com/devalv/wb-inbox-mail-count/releases)
+2. Выполните установку `sudo apt install ./wb-inbox-mail-count.deb`
+3. Внесите адреса и данные подключения к почтовым серверам в конфигурационный файл по пути указанному при установке deb-пакета
+4. Проверьте запуск командой `wb-inbox-mail-count -config /home/user/.config/wb-inbox-mail-count/config.yml`
+5. Если на 4м шаге произошли ошибки - активируйте ключ debug в config.yml и повторите запуск
+6. Добавьте отображение статуса в waybar (инструкция ниже) -->
+
+### Содержимое конфигурационного файла приложения (config.yml)
+```
+debug: false
+servers:
+  -
+    name: "HSE"
+    address: "imap.yandex.ru:993"
+    username: "youruser@edu.hse.ru"
+    password: "your-app-pass"
+  -
+    name: "Ya"
+    address: "imap.yandex.ru:993"
+    username: "anotheruser@ya.ru"
+    password: "another-app-pass"
 ```
 
-1. Run **make** command to install all dev-utils.
+### Добавление запуска в waybar (~/.config/waybar/config.jsonc)
+1. Добавьте отображение вывода в раздел **modules-right** (или иной)
+```json
+"modules-right": [
+    ...
+    "battery",
+    "custom/wbimc",
+    ...
+],
+```
+2. Добавьте обработчик вывода
+```json
+    ...
+   "custom/wbimc": {
+     "exec" : "wbimc -config /home/user/.config/wb-incox-mail-count/config.yml",
+         "return-type": "json",
+         "interval": 60,
+     "format": "{}"
+    },
+    "battery": {
+        "format": "{icon} {capacity}%",
+        "format-icons": ["", "", "", "", ""]
+    },
+    ...
+```
+
+### Настройка отступов для waybar (~/.config/waybar/style.css)
+```css
+#custom-wbimc {
+    color: @text;
+    padding-right: 13px;
+ }
+```
+
+## Установка для разработки
+1. Убедитесь, что установлена подходящая версия [Go](https://go.dev/dl/) - **1.23**.
+
+2. Запустите **make** команду для установки утилит разработки.
 
 ```bash
 make setup
 ```
 
-## Project layout
+### Make команды
+- **setup**   - установка утилит для разработки/проверки
+- **fmt**     - запуск gofmt и goimports
+- **test**    - запуск тестов
+- **cover**   - вывод % покрытия тестов
+- **build**   - сборка исполняемого файла
 
-Directory names and meanings
-<https://github.com/golang-standards/project-layout/blob/master/README_ru.md>
+
+## Структура проекта
+```
+wb-inbox-mail-count/
+├── cmd/
+│   └── app/
+│       └── main.go
+├── internal/
+|   ├── app/
+│       └── app.go           // Методы работы с приложением
+|   ├── config/              // Хранение конфигураций для всех частей проекта
+│   │   └── config.go
+|   ├── transport/           // Часть на получение внутри
+│   │   ├── http/
+│   │   ├── grpc/
+│   │   └── messaging/       // Консьюмеры
+|   ├── domain/              // Обобщенные структуры / константы / ошибки
+|   |   ├── models/
+│   │   ├── errors/
+│   │   └── consts/
+|   |       └──consts.go
+|   ├── usecase/             // Бизнес логика
+│   │   └── waybar.go
+```
+
+## Сборка deb-пакета
+<!-- TODO: актуализировать для v0.1 -->
+
+## TODO v0.2
+- TODO: автоматизировать сборку deb-пакета в github
+- TODO: автоматизировать сборку bin-артефактов в github
+- TODO: тесты
+- TODO: сборка debian-пакета
+- TODO: конкурентное обращение к почтовым серверам
+- TODO: иконка для вывода в Config
