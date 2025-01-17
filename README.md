@@ -14,17 +14,17 @@
 1. Загрузите соответствующую версию из раздела [релизы](https://github.com/devalv/wb-inbox-mail-count/releases)
 2. Скопируйте исполняемый файл в `/usr/local/bin` (или иной каталог доступный waybar на запуск)
 3. Создайте файл-конфигурации по инструкции описанной ниже
-4. Проверьте запуск командой `wb-inbox-mail-count -config /home/user/.config/wb-inbox-mail-count/config.yml`
+4. Проверьте запуск командой `wbimc -config /home/user/.config/wb-inbox-mail-count/config.yml`
 5. Если на 4м шаге произошли ошибки - активируйте ключ debug в config.yml и повторите запуск
 6. Добавьте отображение статуса в waybar (инструкция ниже)
 
-### Установка deb-пакета
+<!-- ### Установка deb-пакета
 1. Загрузите соответствующую версию из раздела [релизы](https://github.com/devalv/wb-inbox-mail-count/releases)
 2. Выполните установку `sudo apt install ./wb-inbox-mail-count.deb`
 3. Внесите адреса и данные подключения к почтовым серверам в конфигурационный файл по пути указанному при установке deb-пакета
 4. Проверьте запуск командой `wb-inbox-mail-count -config /home/user/.config/wb-inbox-mail-count/config.yml`
 5. Если на 4м шаге произошли ошибки - активируйте ключ debug в config.yml и повторите запуск
-6. Добавьте отображение статуса в waybar (инструкция ниже)
+6. Добавьте отображение статуса в waybar (инструкция ниже) -->
 
 ### Содержимое конфигурационного файла приложения (config.yml)
 ```
@@ -56,7 +56,7 @@ servers:
 ```json
     ...
    "custom/wbimc": {
-     "exec" : "wb-inbox-mail-count -config /home/user/.config/wb-incox-mail-count/config.yml",
+     "exec" : "wbimc -config /home/user/.config/wb-incox-mail-count/config.yml",
          "return-type": "json",
          "interval": 60,
      "format": "{}"
@@ -121,6 +121,9 @@ wb-inbox-mail-count/
 <!-- TODO: актуализировать для v0.1 -->
 
 ## TODO v0.2
-TODO: автоматизировать сборку deb-пакета в github
-TODO: автоматизировать сборку bin-артефактов в github
-TODO: тесты
+- TODO: автоматизировать сборку deb-пакета в github
+- TODO: автоматизировать сборку bin-артефактов в github
+- TODO: тесты
+- TODO: сборка debian-пакета
+- TODO: конкурентное обращение к почтовым серверам
+- TODO: иконка для вывода в Config
