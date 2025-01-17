@@ -7,8 +7,8 @@ import (
 
 	"github.com/rs/zerolog/log"
 
-	"wb-inbox-mail-count/internal/config"
-	"wb-inbox-mail-count/internal/usecase"
+	"github.com/devalv/wb-inbox-mail-count/internal/config"
+	"github.com/devalv/wb-inbox-mail-count/internal/usecase"
 )
 
 type Application struct {
