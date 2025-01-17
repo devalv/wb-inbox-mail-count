@@ -26,6 +26,3 @@ build:
 
 run:
 	go run ./cmd/app
-
-debug:
-	go run ./cmd/app -config ./config-local-debug.yml

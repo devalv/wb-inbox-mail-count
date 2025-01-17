@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"os"
 
-	"wb-inbox-mail-count/internal/domain/consts"
-	"wb-inbox-mail-count/internal/transport/imap"
+	"github.com/devalv/wb-inbox-mail-count/internal/domain/consts"
+	"github.com/devalv/wb-inbox-mail-count/internal/transport/imap"
 
 	"github.com/ilyakaznacheev/cleanenv"
 	"github.com/rs/zerolog"
