@@ -1,6 +1,5 @@
 # wb-inbox-mail-count
 
-<!-- TODO: актуализировать ссылки -->
 [![Go Report Card](https://goreportcard.com/badge/github.com/devalv/wb-inbox-mail-count)](https://goreportcard.com/report/github.com/devalv/wb-inbox-mail-count)
 [![CodeQL](https://github.com/devalv/wb-inbox-mail-count/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/devalv/wb-inbox-mail-count/actions/workflows/codeql-analysis.yml)
 [![codecov](https://codecov.io/gh/devalv/wb-inbox-mail-count/branch/main/graph/badge.svg)](https://codecov.io/gh/devalv/wb-inbox-mail-count)

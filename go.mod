@@ -1,4 +1,4 @@
-module wb-inbox-mail-count
+module github.com/devalv/wb-inbox-mail-count
 
 go 1.23.4
 

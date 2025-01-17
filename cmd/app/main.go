@@ -6,8 +6,8 @@ import (
 	"os/signal"
 	"syscall"
 
-	"wb-inbox-mail-count/internal/app"
-	"wb-inbox-mail-count/internal/config"
+	"github.com/devalv/wb-inbox-mail-count/internal/app"
+	"github.com/devalv/wb-inbox-mail-count/internal/config"
 
 	"github.com/rs/zerolog/log"
 )
