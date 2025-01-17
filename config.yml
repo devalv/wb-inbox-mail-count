@@ -1,1 +1,3 @@
 debug: true
+empty_inbox_icon: "<span rise='2000'>󰶈</span>"
+non_empty_inbox_icon: "<span color='#FF0000' rise='2000'>󰶍</span>"
