@@ -13,6 +13,8 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
+// TODO: показывать только непрочитанные - это для каждого сервера или для всех?
+
 type Config struct {
 	Debug             bool                `yaml:"debug"`
 	Servers           []imap.ServerConfig `yaml:"servers"`

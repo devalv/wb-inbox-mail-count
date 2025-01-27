@@ -13,6 +13,7 @@ fmt:
 	gofmt -w -s ./internal
 	goimports -w ./internal
 	gofumpt -w ./internal
+	go mod tidy
 
 test:
 	go test ./... -race
@@ -25,4 +26,4 @@ build:
 	go build -o application ./cmd/app
 
 run:
-	go run ./cmd/app
+	go run ./cmd/app -config ./config-local.yml
