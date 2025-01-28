@@ -27,8 +27,8 @@ func (app *Application) getMails() (count uint32, tooltip []string, err error) {
 
 	for _, srv := range app.cfg.Servers {
 		// TODO: parallel get for each server with error groups - v0.3?
-		// TODO: разный вызов в зависимости от конфига
-		count, err := srv.UnreadMailCount()
+
+		count, err := srv.GetMailCount()
 		if err != nil {
 			return 0, nil, err
 		}

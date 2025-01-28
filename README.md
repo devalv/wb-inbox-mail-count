@@ -39,7 +39,11 @@ servers:
     address: "imap.yandex.ru:993"
     username: "anotheruser@ya.ru"
     password: "another-app-pass"
+    unread_only: true
 ```
+
+**unread_only** может быть задан для каждого сервера. В значении **true** в подсчете будут участвовать только непрочтенные сообщения.
+Значение по умолчанию - **false**.
 
 ### Добавление запуска в waybar (~/.config/waybar/config.jsonc)
 1. Добавьте отображение вывода в раздел **modules-right** (или иной)
